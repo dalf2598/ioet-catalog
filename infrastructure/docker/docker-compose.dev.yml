@@ -1,0 +1,39 @@
+services:
+  ioet-catalog-backend:
+    container_name: ioet-catalog-backend
+    build:
+      context: ../..
+      target: dev
+    volumes:
+      - ../../.:/ioet_catalog
+    ports:
+      - "8000:8000"
+    restart: always
+    depends_on:
+      - ioet-catalog-database
+    environment:
+      DATABASE_URL: postgres://root:toor@postgres/ioet_catalog_db
+
+  ioet-catalog-database:
+    container_name: ioet-catalog-database
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: ioet_catalog_db
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: toor
+    volumes:
+      - ../postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  database-pgadmin:
+    image: dpage/pgadmin4
+    container_name: database-pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "pgadmin@example.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+      - "5055:80"
+    depends_on:
+      - ioet-catalog-database
