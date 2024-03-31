@@ -15,7 +15,6 @@ class SQLProductRepository(ProductRepository):
                 products = session.query(ProductSchema).all()
                 if products is None:
                     return []
-                print(products)
                 product_list = [
                     Product(
                         product_id=str(product.product_id),

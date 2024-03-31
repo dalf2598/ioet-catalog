@@ -64,7 +64,7 @@ async def create_product(
             description=request.description,
             price=request.price,
             location=request.location,
-            status=request.status,
+            status=request.status.value,
             is_available=request.is_available,
         )
     )

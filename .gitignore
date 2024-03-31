@@ -162,3 +162,5 @@ cython_debug/
 # Docker Content
 infrastructure/postgres-data/**
 poetry.lock
+python-version
+.vscode
