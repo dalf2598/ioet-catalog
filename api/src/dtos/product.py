@@ -19,6 +19,10 @@ class ListProductResponseDto(BaseModel):
     products: List[ProductBase]
 
 
+class ListProductsByStatusResponseDto(BaseModel):
+    products: List[ProductBase]
+
+
 class FindProductByIdResponseDto(ProductBase): ...
 
 
