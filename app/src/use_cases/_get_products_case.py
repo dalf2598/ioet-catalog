@@ -16,7 +16,7 @@ class GetProductsCase:
                 description="Noise cancellation",
                 price=Decimal(10.5),
                 location="Quito",
-                status=ProductStatuses.USED,
+                status=ProductStatuses.FOR_PARTS,
                 is_available=True,
             ),
             Product(

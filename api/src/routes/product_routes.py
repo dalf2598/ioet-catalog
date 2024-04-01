@@ -5,6 +5,9 @@ from fastapi import APIRouter, Depends
 from app.src.use_cases import (
     ListProducts,
     ListProductResponse,
+    ListProductsByStatus,
+    ListProductsByStatusRequest,
+    ListProductsByStatusResponse,
     FindProductById,
     FindProductByIdResponse,
     FindProductByIdRequest,
@@ -15,12 +18,14 @@ from app.src.use_cases import (
 from ..dtos import (
     ProductBase,
     ListProductResponseDto,
+    ListProductsByStatusResponseDto,
     CreateProductRequestDto,
     CreateProductResponseDto,
     FindProductByIdResponseDto,
 )
 from factories.use_cases import (
     list_product_use_case,
+    list_product_by_status_use_case,
     find_product_by_id_use_case,
     create_product_use_case,
 )
@@ -35,6 +40,18 @@ async def get_products(
 ) -> ListProductResponse:
     response = use_case()
     response_dto: ListProductResponseDto = ListProductResponseDto(
+        products=[ProductBase(**product._asdict()) for product in response.products]
+    )
+    return response_dto
+
+
+@product_router.get("/status/{status}", response_model=ListProductsByStatusResponseDto)
+async def get_products_by_status(
+    status: str,
+    use_case: ListProductsByStatus = Depends(list_product_by_status_use_case),
+) -> ListProductsByStatusResponse:
+    response = use_case(ListProductsByStatusRequest(status=status))
+    response_dto: ListProductsByStatusResponseDto = ListProductsByStatusResponseDto(
         products=[ProductBase(**product._asdict()) for product in response.products]
     )
     return response_dto
