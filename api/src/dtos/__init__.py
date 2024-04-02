@@ -5,4 +5,6 @@ from .product import (
     CreateProductRequestDto,
     CreateProductResponseDto,
     FindProductByIdResponseDto,
+    EditProductRequestDto,
+    EditProductResponseDto,
 )

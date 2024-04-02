@@ -73,13 +73,30 @@ class SQLProductRepository(ProductRepository):
                     status=str(product.status),
                     is_available=bool(product.is_available),
                 )
+
         except Exception:
             self.session.rollback()
             raise ProductRepositoryException(method="find")
 
-    def edit(self, product: Product) -> Product:
-        # Needs Implementation
-        pass
+    def edit(self, update_product: Product) -> Product:
+        try:
+            with self.session as session:
+                product = (
+                    session.query(ProductSchema)
+                    .filter(ProductSchema.product_id == update_product.product_id)
+                    .first()
+                )
+                if product is None:
+                    return None
+
+                for field, value in update_product._asdict().items():
+                    setattr(product, field, value)
+
+                session.commit()
+                return update_product
+        except Exception:
+            self.session.rollback()
+            raise ProductRepositoryException(method="edit")
 
     def delete(self, product_id: str) -> Product:
         # Needs Implementation

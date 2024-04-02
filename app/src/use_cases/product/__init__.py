@@ -6,3 +6,4 @@ from .list_by_status import (
 )
 from .get_by_id import FindProductById, FindProductByIdRequest, FindProductByIdResponse
 from .create import CreateProduct, CreateProductRequest, CreateProductResponse
+from .edit import EditProduct, EditProductRequest, EditProductResponse

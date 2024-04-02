@@ -1,14 +1,11 @@
 from decimal import Decimal
-from pydantic import BaseModel
 
-from ..core.enums import ProductStatuses
+from typing import NamedTuple
 
-
-class GetProductsRequest(BaseModel):
-    status: ProductStatuses | None
+from ....core import ProductStatuses
 
 
-class EditCaseProductRequest(BaseModel):
+class EditProductRequest(NamedTuple):
     product_id: str
     user_id: str
     name: str
