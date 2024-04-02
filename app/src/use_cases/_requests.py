@@ -17,3 +17,7 @@ class EditCaseProductRequest(BaseModel):
     location: str
     status: ProductStatuses
     is_available: bool
+
+
+class DeleteCaseProductRequest(BaseModel):
+    product_id: str

@@ -7,4 +7,5 @@ from .product import (
     FindProductByIdResponseDto,
     EditProductRequestDto,
     EditProductResponseDto,
+    DeleteProductResponseDto,
 )
