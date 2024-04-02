@@ -17,6 +17,9 @@ from app.src.use_cases import (
     EditProduct,
     EditProductResponse,
     EditProductRequest,
+    DeleteProduct,
+    DeleteProductResponse,
+    DeleteProductRequest,
 )
 from ..dtos import (
     ProductBase,
@@ -27,6 +30,7 @@ from ..dtos import (
     FindProductByIdResponseDto,
     EditProductRequestDto,
     EditProductResponseDto,
+    DeleteProductResponseDto,
 )
 from factories.use_cases import (
     list_product_use_case,
@@ -34,6 +38,7 @@ from factories.use_cases import (
     find_product_by_id_use_case,
     create_product_use_case,
     edit_product_use_case,
+    delete_product_use_case,
 )
 from app.src.core.models import Product
 
@@ -115,4 +120,15 @@ async def edit_product(
         )
     )
     response_dto: EditProductResponseDto = EditProductResponseDto(**response._asdict())
+    return response_dto
+
+
+@product_router.delete("/{product_id}", response_model=DeleteProductResponseDto)
+async def delete_product_by_id(
+    product_id: str, use_case: DeleteProduct = Depends(delete_product_use_case)
+) -> DeleteProductResponse:
+    response = use_case(DeleteProductRequest(product_id=product_id))
+    response_dto: DeleteProductResponseDto = DeleteProductResponseDto(
+        **response._asdict()
+    )
     return response_dto

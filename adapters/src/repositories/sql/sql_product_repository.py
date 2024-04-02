@@ -99,5 +99,28 @@ class SQLProductRepository(ProductRepository):
             raise ProductRepositoryException(method="edit")
 
     def delete(self, product_id: str) -> Product:
-        # Needs Implementation
-        pass
+        try:
+            with self.session as session:
+                product = (
+                    session.query(ProductSchema)
+                    .filter(ProductSchema.product_id == product_id)
+                    .first()
+                )
+                if product is None:
+                    return None
+
+                session.delete(product)
+                session.commit()
+                return Product(
+                    product_id=str(product.product_id),
+                    user_id=str(product.user_id),
+                    name=str(product.name),
+                    description=str(product.description),
+                    price=Decimal(product.price),
+                    location=str(product.location),
+                    status=str(product.status),
+                    is_available=bool(product.is_available),
+                )
+        except Exception:
+            self.session.rollback()
+            raise ProductRepositoryException(method="edit")

@@ -46,5 +46,11 @@ class MemoryProductRepository(ProductRepository):
             raise ProductRepositoryException(method="edit")
 
     def delete(self, product_id: str) -> Product:
-        # Needs Implementation
-        pass
+        try:
+            for product in self.products:
+                if product.product_id == product_id:
+                    self.tasks.remove(product)
+                    return product
+            return None
+        except Exception:
+            raise ProductRepositoryException(method="delete")
